@@ -1,2 +1,2 @@
 # simple_shell
-creating a replica of Bourne shell
+A team project involving creatiion of a replica of Bourne shell.
