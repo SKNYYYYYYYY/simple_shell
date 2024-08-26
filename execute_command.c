@@ -5,20 +5,37 @@
  * @command: The command to execute.
  * @env: The environment variables.
  */
-int execute_command(char *command, char **env)
+void execute_command(char *command, char **env)
 {
 	pid_t pid;
-	char *full_path;
+	char *full_path, *pathname;
 	char **args;
-	int status = -1;
+	int status;
 
 	args = split_command(command);
-
+	
+	/*cd command to change directory*/
+	if (_strcmp(args[0],"cd") == 0)
+	{
+		if (args[1] != NULL)
+		{
+			pathname = args[1];
+		    if (chdir(pathname) == 0)
+	            printf("%s#\n", args[1]);
+		}
+		else
+		{
+			pathname = "/home";
+			chdir(pathname);
+		}
+	}
+	
 	/*Handling the exit command*/
 	if (_strcmp(args[0],"exit") == 0)
 	{
+		status = atoi(args[1]);
 		free(args);
-		exit(EXIT_SUCCESS);
+		exit(status);
 	}
 
 	/*to check if the absolute path is specified i.e /bin/ls*/
@@ -29,12 +46,12 @@ int execute_command(char *command, char **env)
 	else
 	{
 		full_path = find_path(command, env);
-		if (full_path == NULL)
+		if (full_path == NULL && _strcmp(args[0],"cd") != 0)
 		{
 			write(STDERR_FILENO, command, _strlen(command));
 			write(STDERR_FILENO, ": command not found\n", 21);
 			free(args);
-			return (status);
+			return;
 		}
 	}
 
@@ -44,12 +61,13 @@ int execute_command(char *command, char **env)
 		perror("fork");
 		free(full_path);
 		free(args);
-		return (status);
+		return;
 	}
 
 	if (pid == 0)
 	{
-		status = execve(full_path, args, env);
+		printf("%s\n",full_path);
+		execve(full_path, args, env);
 		perror("execve");
 		if(full_path != args[0])/*prevents double freeing hence enables executing compiled files more than once*/
 			free(full_path);
@@ -63,5 +81,4 @@ int execute_command(char *command, char **env)
 			free(full_path);
 		free(args);
 	}
-	return (status);
 }
