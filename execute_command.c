@@ -10,8 +10,8 @@ void execute_command(char *command, char **env)
 	pid_t pid;
 	char *full_path, *pathname;
 	char **args;
-	int status, i;
-
+	int status, i, j, arg_count;
+	char **new_args;
 	args = split_command(command);
 	
 	/*cd command to change directory*/
@@ -32,25 +32,54 @@ void execute_command(char *command, char **env)
 	
 	/*Handling the exit command*/
 if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
-    {
+{
+     
+    arg_count = 0;
 
-		
-        status = EXIT_SUCCESS;  /* Default to 0*/
-        if (args[1] != NULL)
-        {
-            status = _atoi(args[1]);
-            if (status < 0 || status > 255)
-                status = EXIT_SUCCESS;  /* Invalid status, use 1 */
-        }
-
-        /* Free individual arguments if necessary */
-        for (i = 0; args[i] != NULL; i++)
-            free(args[i]); 
-
-        free(args);
-        exit(status);
-    }	
     
+    while (args[arg_count] != NULL)
+        arg_count++;
+
+ 
+    new_args = malloc(sizeof(char *) * (arg_count + 1));
+    if (new_args == NULL)
+    {
+        
+        fprintf(stderr, "Memory allocation failed\n");
+        exit(EXIT_FAILURE);
+    }
+
+    
+    for (i = 0; i < arg_count; i++)
+    {
+        new_args[i] = strdup(args[i]);
+        if (new_args[i] == NULL)
+        {
+            fprintf(stderr, "Memory allocation failed\n");
+            for ( j = 0; j < i; j++)
+                free(new_args[j]);
+            free(new_args);
+            exit(EXIT_FAILURE);
+        }
+    }
+    new_args[arg_count] = NULL;  
+
+   
+    status = EXIT_SUCCESS;  /* Default to 0 */
+    if (new_args[1] != NULL)
+    {
+        status = _atoi(new_args[1]);
+        if (status < 0 || status > 255)
+            status = EXIT_SUCCESS;  /* Invalid status, use 0 */
+    }
+
+    
+    for ( i = 0; new_args[i] != NULL; i++)
+        free(new_args[i]);
+    free(new_args);
+
+    exit(status);
+}
     /*to check if the absolute path is specified i.e /bin/ls*/
 	if(args[0][0] == '/' || args[0][1] == '/')
 	{
