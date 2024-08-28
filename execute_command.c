@@ -31,14 +31,22 @@ void execute_command(char *command, char **env)
 	}
 	
 	/*Handling the exit command*/
-	if (_strcmp(args[0],"exit") == 0)
+	if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
 	{
-		if (args[1] != NULL)
-			status = _atoi(args[1]);
-		else
-			status = 0;
-		free(args);
-		exit(status);
+	    status = EXIT_SUCCESS;  /* Default to 0 */
+	    if (args[1] != NULL)
+	    {
+	        status = _atoi(args[1]);
+	        if (status < 0 || status > 255)
+	            status = EXIT_FAILURE;  /* Invalid status, use 1 */
+	    }
+	    
+	    /* Free individual arguments if necessary */
+	    /* for (int i = 0; args[i] != NULL; i++)
+	           free(args[i]); */
+	    
+	    free(args);
+	    exit(status);
 	}
 
 	/*to check if the absolute path is specified i.e /bin/ls*/
