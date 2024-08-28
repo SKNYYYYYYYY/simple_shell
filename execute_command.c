@@ -32,41 +32,37 @@ void execute_command(char *command, char **env)
 	
 	/*Handling the exit command*/
 	if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
-	{
-	    status = EXIT_SUCCESS;  /* Default to 0 */
-	    
-	    if (args[1] != NULL)
-	    {
-	        int is_valid_number = 1;
-	        for (i = 0; args[1][i] != '\0'; i++)
-	        {
-	            if (!_isdigit(args[1][i]))  /* Check if each character is a digit */
-	            {
-	                is_valid_number = 0;
-	                break;
-	            }
-	        }
-	
-	        if (is_valid_number)
-	        {
-	            status = _atoi(args[1]);
-	            if (status < 0 || status > 255)
-	                status = EXIT_FAILURE;  /* Invalid status, use 1 */
-	        }
-	        else
-	        {
-	            status = EXIT_FAILURE;  /* Non-numeric input, use 1 */
-	        }
-	    }
-	
-	    /* Free individual arguments only if they were dynamically allocated */
-	    for (i = 0; args[i] != NULL; i++)
-	    {
-	        free(args[i]);
-	    }
-	    free(args);
-	    
-	    exit(status);
+{
+    status = EXIT_SUCCESS;  /* Default to 0 */
+    
+    if (args[1] != NULL)
+    {
+        int is_valid_number = 1;
+        for (i = 0; args[1][i] != '\0'; i++)
+        {
+            if (!_isdigit(args[1][i]))  /* Check if each character is a digit */
+            {
+                is_valid_number = 0;
+                break;
+            }
+        }
+
+        if (is_valid_number)
+        {
+            status = _atoi(args[1]);
+            if (status < 0 || status > 255)
+                status = EXIT_FAILURE;  /* Invalid status, use 1 */
+        }
+        else
+        {
+            status = EXIT_FAILURE;  /* Non-numeric input, use 1 */
+        }
+    }
+
+    /* Don't free individual arguments, just free the args array */
+    free(args);
+    
+    exit(status);
 	}
 	/*to check if the absolute path is specified i.e /bin/ls*/
 	if(args[0][0] == '/' || args[0][1] == '/')
