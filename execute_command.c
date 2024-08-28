@@ -37,8 +37,6 @@ void execute_command(char *command, char **env)
 	    if (args[1] != NULL)
 	    {
 	        status = _atoi(args[1]);
-	        if (status < 0 || status > 255)
-	            status = EXIT_FAILURE;  /* Invalid status, use 1 */
 	    }
 	    
 	    /* Free individual arguments if necessary */
