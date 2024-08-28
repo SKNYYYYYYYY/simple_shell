@@ -10,7 +10,7 @@ void execute_command(char *command, char **env)
 	pid_t pid;
 	char *full_path, *pathname;
 	char **args;
-	int status, i;
+	int status, i, is_valid_number;
 
 	args = split_command(command);
 	
@@ -35,10 +35,10 @@ if (args[0] != NULL && _strcmp(args[0], "exit") == 0) {
     status = EXIT_SUCCESS; /* Default to 0 */
     if (args[1] != NULL) {
         char *arg = args[1];
-        while (*arg == ' ') arg++; // Trim leading whitespace
+        while (*arg == ' ') arg++; /*Trim leading whitespace*/
         
-        int is_valid_number = 1;
-        for (int i = 0; arg[i] != '\0' && arg[i] != ' '; i++) {
+        is_valid_number = 1;
+        for (i = 0; arg[i] != '\0' && arg[i] != ' '; i++) {
             if (!_isdigit(arg[i])) {
                 is_valid_number = 0;
                 break;
