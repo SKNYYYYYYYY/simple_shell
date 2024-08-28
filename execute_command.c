@@ -31,39 +31,39 @@ void execute_command(char *command, char **env)
 	}
 	
 	/*Handling the exit command*/
-	if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
-{
-    status = EXIT_SUCCESS;  /* Default to 0 */
-    
-    if (args[1] != NULL)
-    {
+if (args[0] != NULL && _strcmp(args[0], "exit") == 0) {
+    status = EXIT_SUCCESS; /* Default to 0 */
+    if (args[1] != NULL) {
+        char *arg = args[1];
+        while (*arg == ' ') arg++; // Trim leading whitespace
+        
         int is_valid_number = 1;
-        for (i = 0; args[1][i] != '\0'; i++)
-        {
-            if (!_isdigit(args[1][i]))  /* Check if each character is a digit */
-            {
+        for (int i = 0; arg[i] != '\0' && arg[i] != ' '; i++) {
+            if (!_isdigit(arg[i])) {
                 is_valid_number = 0;
                 break;
             }
         }
-
-        if (is_valid_number)
-        {
-            status = _atoi(args[1]);
-            if (status < 0 || status > 255)
-                status = EXIT_FAILURE;  /* Invalid status, use 1 */
-        }
-        else
-        {
-            status = EXIT_FAILURE;  /* Non-numeric input, use 1 */
+        if (is_valid_number) {
+            status = atoi(arg);
+            if (status < 0 || status > 255) {
+                fprintf(stderr, "Error: status out of range\n");
+                status = EXIT_FAILURE;
+            }
+        } else {
+            fprintf(stderr, "Error: numeric argument required\n");
+            status = EXIT_FAILURE;
         }
     }
-
-    /* Don't free individual arguments, just free the args array */
+    if (args[2] != NULL) {
+        fprintf(stderr, "Error: too many arguments\n");
+        status = EXIT_FAILURE;
+    }
+    /* Free args if necessary */
+    /* for (int i = 0; args[i] != NULL; i++) free(args[i]); */
     free(args);
-    
     exit(status);
-	}
+}
 	/*to check if the absolute path is specified i.e /bin/ls*/
 	if(args[0][0] == '/' || args[0][1] == '/')
 	{
