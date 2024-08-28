@@ -31,12 +31,12 @@ void execute_command(char *command, char **env)
 	}
 	
 	/*Handling the exit command*/
-	if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
+	if (args[0] != NULL && strcmp(args[0], "exit") == 0)
 	{
 	    status = EXIT_SUCCESS;  /* Default to 0 */
 	    if (args[1] != NULL)
 	    {
-	        status = _atoi(args[1]);
+	        status = atoi(args[1]);
 	        if (status < 0 || status > 255)
 	            status = EXIT_FAILURE;  /* Invalid status, use 1 */
 	    }
