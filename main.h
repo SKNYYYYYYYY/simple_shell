@@ -37,6 +37,6 @@ int _strcmp(char *s1, char *s2);
 char *_strdup(char *str);
 char *_strtok(char *str, const char *delim);
 int _atoi(char *s);
-
+int _isdigit(int c);
 
 #endif /* MAIN_H */
