@@ -58,7 +58,7 @@ if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
 	else
 	{
 		full_path = find_path(command, env);
-		if (full_path == NULL && _strcmp(args[0],"cd") != 0)
+		if (full_path == NULL && _strcmp(args[0],"cd") != 0 && _strcmp(args[0],"#") != 0)
 		{
 			write(STDERR_FILENO, command, _strlen(command));
 			write(STDERR_FILENO, ": command not found\n", 21);
@@ -76,7 +76,7 @@ if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
 		return;
 	}
 
-	if (pid == 0)
+	if (pid == 0 && _strcmp(args[0],"cd") != 0 && _strcmp(args[0],"#") != 0)
 	{
 
 		execve(full_path, args, env);

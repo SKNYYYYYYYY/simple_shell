@@ -41,4 +41,7 @@ int _isdigit(int c);
 void _puts(char *str);
 int _putchar(char c);
 
+/*Helper functions*/
+char* trim_comment(char* command);
+
 #endif /* MAIN_H */
