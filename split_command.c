@@ -11,9 +11,12 @@
 char **split_command(char *command)
 {
 	char **args;
-	char *token;
+	char *token, *comment_start;
 	int i = 0;
-
+	
+	comment_start = strchr(command, '#');
+	if (comment_start != NULL)
+		*comment_start = '\0'; 
 	args = malloc(sizeof(char *) * MAX_ARGS);
 	if (args == NULL)
 		return (NULL);

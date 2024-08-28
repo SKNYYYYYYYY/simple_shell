@@ -38,5 +38,7 @@ char *_strdup(char *str);
 char *_strtok(char *str, const char *delim);
 int _atoi(char *s);
 int _isdigit(int c);
+void _puts(char *str);
+int _putchar(char c);
 
 #endif /* MAIN_H */
