@@ -37,8 +37,6 @@ if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
     if (args[1] != NULL)
     {
         status = _atoi(args[1]);
-        if (status < 0 || status > 255)
-            status = EXIT_FAILURE;  /* Invalid status, use 1 */
     }
 
     /* Free args array if it was dynamically allocated */
