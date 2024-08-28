@@ -33,7 +33,10 @@ void execute_command(char *command, char **env)
 	/*Handling the exit command*/
 	if (_strcmp(args[0],"exit") == 0)
 	{
-		status = atoi(args[1]);
+		if (args[1] != NULL)
+			status = _atoi(args[1]);
+		else
+			status = 0;
 		free(args);
 		exit(status);
 	}
