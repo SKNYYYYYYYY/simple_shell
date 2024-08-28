@@ -10,7 +10,7 @@ void execute_command(char *command, char **env)
 	pid_t pid;
 	char *full_path, *pathname;
 	char **args;
-	int status;
+	int status, i;
 
 	args = split_command(command);
 	
@@ -43,6 +43,9 @@ if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
                 status = EXIT_SUCCESS;  /* Invalid status, use 1 */
         }
 
+        /* Free individual arguments if necessary */
+        for (i = 0; args[i] != NULL; i++)
+            free(args[i]); 
 
         free(args);
         exit(status);
