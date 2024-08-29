@@ -40,6 +40,7 @@ int _atoi(char *s);
 int _isdigit(int c);
 void _puts(char *str);
 int _putchar(char c);
+int my_strchr(const char *str, char ch);
 
 /*Helper functions*/
 char *trim_comment(char *command);

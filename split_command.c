@@ -35,7 +35,7 @@ char **split_command(char *command)
 	char *token;
 	int i = 0;
 
-	hash_handler(command);
+	comment_handler(command);
 	args = malloc(sizeof(char *) * MAX_ARGS);
 	if (args == NULL)
 		return (NULL);
