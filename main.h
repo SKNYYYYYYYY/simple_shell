@@ -43,5 +43,6 @@ int _putchar(char c);
 
 /*Helper functions*/
 char* trim_comment(char* command);
+void comment_handler(char *buffer);
 
 #endif /* MAIN_H */

@@ -50,6 +50,7 @@ int main(int argc, char **argv, char **env)
 		{
 			command[nread - 1] = '\0';
 		}
+		comment_handler(command);
 		if (command[0] != '\0')
 		{
 			execute_command(command, env);

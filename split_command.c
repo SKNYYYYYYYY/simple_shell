@@ -2,24 +2,30 @@
 
 #define MAX_ARGS 100
 
-/**
- * split_command - Splits a command into arguments.
- * @command: The command to split.
- *
- * Return: An array of arguments.
- */
+
+/* Function to handle comments */
+void comment_handler(char *buffer)
+{
+	int i;
+
+	for (i = 0; buffer[i] != '\0'; i++)
+	{
+		if (buffer[i] == '#')
+		{
+			buffer[i] = '\0';  /*Terminate the string at the first '#'*/
+			break;
+		}
+	}
+}
+
+
 char **split_command(char *command)
 {
 	char **args;
-	char *token, *comment_start;
+	char *token;
 	int i = 0;
 	
-	/*commenting using #*/
-	comment_start = strchr(command, '#');
-	if (comment_start != NULL)
-	{
-		*comment_start = '\0';
-	}
+	hash_handler(command);
 	args = malloc(sizeof(char *) * MAX_ARGS);
 	if (args == NULL)
 		return (NULL);
