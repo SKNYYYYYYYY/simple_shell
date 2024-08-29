@@ -10,7 +10,7 @@ void execute_command(char *command, char **env)
 	pid_t pid;
 	char *full_path, *pathname;
 	char **args;
-
+	int status, i;
 
 	args = split_command(command);
 	/*cd command to change directory*/
@@ -30,10 +30,25 @@ void execute_command(char *command, char **env)
 	}
 	
 	/*Handling the exit command*/
-if (strcmp(args[0], "exit") == 0) {
-         handle_exit(args);
-         return;
-    }
+if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
+    {
+
+		
+        status = EXIT_SUCCESS;  /* Default to 0*/
+        if (args[1] != NULL)
+        {
+            status = _atoi(args[1]);
+            if (status < 0 || status > 255)
+                status = EXIT_SUCCESS;  /* Invalid status, use 1 */
+        }
+
+        /* Free individual arguments if necessary */
+        for (i = 0; args[i] != NULL; i++)
+            free(args[i]); 
+
+        free(args);
+        exit(status);
+    }	
     
     /*to check if the absolute path is specified i.e /bin/ls*/
 	if(args[0][0] == '/' || args[0][1] == '/')
@@ -79,23 +94,4 @@ if (strcmp(args[0], "exit") == 0) {
 		free(args);
 	}
 }
-
-void handle_exit(char **args) {
-char *endptr;
-long status;
-    if (args[1] == NULL) {
-        exit(0);
-    } else {
-        
-        status = strtol(args[1], &endptr, 10);
-        
-        if (*endptr != '\0' || status < 0 || status > 255) {
-            fprintf(stderr, "Exit: Invalid status\n");
-            return;
-        }
-        
-        exit((int)status);
-    }
-}
-
 
