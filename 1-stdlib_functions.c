@@ -12,13 +12,12 @@ int _putchar(char c)
 }
 
 /**
- *  * _strncpy - copy a string
- *   * @dest: input value
- *    * @src: input value
- *     * @n: input value
- *      *
- *       * Return: dest
- */
+* _strcpy - copy a string
+* @dest: input value
+* @src: input value
+*
+* Return: dest
+*/
 char *_strcpy(char *dest, const char *src)
 {
 	int j = 0;
@@ -27,8 +26,8 @@ char *_strcpy(char *dest, const char *src)
 	{
 		j++;
 	}
-	dest[j + 1] = '\0'; 
-	return dest;
+	dest[j + 1] = '\0';
+	return (dest);
 }
 
 /**

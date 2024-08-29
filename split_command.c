@@ -3,7 +3,11 @@
 #define MAX_ARGS 100
 
 
-/* Function to handle comments */
+/**
+* comment_handler - handles comment
+* @buffer: user input buffer
+*
+*/
 void comment_handler(char *buffer)
 {
 	int i;
@@ -18,13 +22,19 @@ void comment_handler(char *buffer)
 	}
 }
 
+/**
+* split_command - split commands based on given token
+* @command: input string as command
+*
+* Return: an array of string of arguments.
+*/
 
 char **split_command(char *command)
 {
 	char **args;
 	char *token;
 	int i = 0;
-	
+
 	hash_handler(command);
 	args = malloc(sizeof(char *) * MAX_ARGS);
 	if (args == NULL)

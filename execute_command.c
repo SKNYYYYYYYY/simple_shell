@@ -13,6 +13,10 @@ void execute_command(char *command, char **env)
 	int status, i;
 
 	args = split_command(command);
+
+	if (*args == NULL)
+		return;
+
 	/*cd command to change directory*/
 	if (_strcmp(args[0],"cd") == 0)
 	{

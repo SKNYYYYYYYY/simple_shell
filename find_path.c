@@ -49,16 +49,16 @@ char *find_path(char *command, char **env)
  */
 char **build_path_list(char **env)
 {
-	char *path_var, *path_var_copy/*a copy of path_var to enable executing commands more than once*/;
+	char *path_var, *path_var_copy;
 	char **path_list;
 	int i = 0;
 
 	path_var = get_env_var("PATH", env);
 	if (path_var == NULL)
 		return (NULL);
-	
+
 	path_var_copy = _strdup(path_var);
-	if(path_var_copy == NULL)
+	if (path_var_copy == NULL)
 		return (NULL);
 	path_list = malloc(BUFFER_SIZE * sizeof(char *));
 	if (path_list == NULL)
