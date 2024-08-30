@@ -80,7 +80,7 @@ if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
 		return;
 	}
 
-	if (pid == 0)
+	if (pid == 0 && _strcmp(args[0],"cd"))
 	{
 
 		execve(full_path, args, env);
