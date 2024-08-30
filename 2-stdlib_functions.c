@@ -76,7 +76,7 @@ int _strlen(const char *s)
 */
 char *_strdup(char *str)
 {
-	char *ptr;
+	char *ptr = NULL;
 	int len = 0, i = 0, c;
 
 	if (str == NULL)
