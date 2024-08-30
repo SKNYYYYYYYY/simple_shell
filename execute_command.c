@@ -12,7 +12,7 @@ void execute_command(char *command, char **env)
 	char **args;
 
 	args = split_command(command);
-	if (*args == NULL)
+	if (*args == NULL || _strlen(args[0]) == 0)
 		return;
 
 	if (_strcmp(args[0], "cd") == 0)
