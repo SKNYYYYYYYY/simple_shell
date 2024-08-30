@@ -49,7 +49,7 @@ char *find_path(char *command, char **env)
  */
 char **build_path_list(char **env)
 {
-	char *path_var, *path_var_copy;
+	char *path_var, *path_var_copy = NULL;
 	char **path_list;
 	int i = 0;
 
@@ -70,7 +70,6 @@ char **build_path_list(char **env)
 		i++;
 		path_list[i] = _strtok(NULL, ":");
 	}
-	free(path_var_copy);
 	return (path_list);
 }
 
