@@ -12,6 +12,12 @@ extern char **environ;
 #include <sys/stat.h>
 #include <fcntl.h>
 
+void handle_cd_command(char **args);
+void handle_exit_command(char **args);
+char *get_full_path(char **args, char *command, char **env);
+void free_resources(char *full_path, char **args);
+void handle_fork(pid_t pid, char *full_path, char **args, char **env);
+
 /* Buffer size for command and environment handling */
 #define BUFFER_SIZE 1024
 

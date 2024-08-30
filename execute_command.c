@@ -8,70 +8,45 @@
 void execute_command(char *command, char **env)
 {
 	pid_t pid;
-	char *full_path, *pathname;
+	char *full_path;
 	char **args;
-	int status, i;
 
 	args = split_command(command);
-
 	if (*args == NULL)
 		return;
 
-	/*cd command to change directory*/
-	if (_strcmp(args[0],"cd") == 0)
+	if (_strcmp(args[0], "cd") == 0)
 	{
-		if (args[1] != NULL)
-		{
-			pathname = args[1];
-		    if (chdir(pathname) == 0)
-	            printf("%s#\n", args[1]);
-		}
-		else
-		{
-			pathname = "/home";
-			chdir(pathname);
-		}
+		handle_cd_command(args);
+		return;
 	}
-	
-	/*Handling the exit command*/
-if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
-    {
 
-		
-        status = EXIT_SUCCESS;  /* Default to 0*/
-        if (args[1] != NULL)
-        {
-            status = _atoi(args[1]);
-            if (status < 0 || status > 255)
-                status = EXIT_SUCCESS;  /* Invalid status, use 1 */
-        }
-
-        /* Free individual arguments if necessary */
-        for (i = 0; args[i] != NULL; i++)
-            free(args[i]); 
-
-        free(args);
-        exit(status);
-    }	
-    
-    /*to check if the absolute path is specified i.e /bin/ls*/
-	if(args[0][0] == '/' || args[0][1] == '/')
+	if (_strcmp(args[0], "exit") == 0)
 	{
-		full_path = args[0];
+		handle_exit_command(args);
+		return;
 	}
-	else
+
+	full_path = get_full_path(args, command, env);
+	if (full_path == NULL)
 	{
-		full_path = find_path(command, env);
-		if (full_path == NULL && _strcmp(args[0],"cd") != 0 && _strcmp(args[0],"#") != 0)
-		{
-			write(STDERR_FILENO, command, _strlen(command));
-			write(STDERR_FILENO, ": command not found\n", 21);
-			free(args);
-			return;
-		}
+		free(args);
+		return;
 	}
 
 	pid = fork();
+	handle_fork(pid, full_path, args, env);
+}
+
+/**
+ * handle_fork - Handles the fork and execution of a command.
+ * @pid: Process ID after fork.
+ * @full_path: The full path of the command.
+ * @args: The command arguments.
+ * @env: The environment variables.
+ */
+void handle_fork(pid_t pid, char *full_path, char **args, char **env)
+{
 	if (pid == -1)
 	{
 		perror("fork");
@@ -80,22 +55,16 @@ if (args[0] != NULL && _strcmp(args[0], "exit") == 0)
 		return;
 	}
 
-	if (pid == 0 && _strcmp(args[0],"cd"))
+	if (pid == 0)
 	{
-
 		execve(full_path, args, env);
 		perror("execve");
-		if(full_path != args[0])/*prevents double freeing hence enables executing compiled files more than once*/
-			free(full_path);
-		free(args);
+		free_resources(full_path, args);
 		exit(1);
 	}
 	else
 	{
 		wait(NULL);
-		if(full_path != args[0]) /*prevents double freeing hence enables executing compiled files more than once*/
-			free(full_path);
-		free(args);
+		free_resources(full_path, args);
 	}
 }
-

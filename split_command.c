@@ -34,11 +34,7 @@ char **split_command(char *command)
 	char **args;
 	char *token;
 	int i = 0;
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> d9af69fa1df288ccbdd26fd625ced0cdd85b076a
 	comment_handler(command);
 	args = malloc(sizeof(char *) * MAX_ARGS);
 	if (args == NULL)
