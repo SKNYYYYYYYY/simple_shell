@@ -60,7 +60,8 @@ int _strcmp(char *s1, char *s2)
 int _strlen(const char *s)
 {
 	int len = 0;
-
+	if (s == NULL)
+		return (0);
 	while (s[len] != '\0')
 	{
 		len++;
