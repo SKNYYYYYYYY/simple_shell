@@ -70,6 +70,7 @@ char **build_path_list(char **env)
 		i++;
 		path_list[i] = _strtok(NULL, ":");
 	}
+	free(path_var_copy);
 	return (path_list);
 }
 
